@@ -43,7 +43,7 @@ data "aws_caller_identity" "sec" {
 # RESOURCES
 ############################################################################# 
 
-# Create a policy to allow peering acceptance
+# Create a policy to allow peering acceptance in the sec
 
 resource "aws_iam_role_policy" "peering_policy" {
   name     = "vpc_peering_policy"

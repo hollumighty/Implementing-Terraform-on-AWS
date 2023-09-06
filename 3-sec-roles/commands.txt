@@ -1,3 +1,12 @@
+TASK- For security concerns, the security team wants to have a seperate AWS security where they will have the security-vpc specifically for security services and limit everyones access to the account
+And the plan is to pair all other vpcs and vpcs that will be created to the security-vpc
+We achieve this by VPC PEERING 
+we create a peering-policy on the security account
+we create a peering-role and assign the policy to the role
+on the dev-vpc account we create a assume-role-policy, so any one attached to this role can have the peering permission
+we then create a peering group and we add individuals to this group and they can auntomatically have the peering connection
+
+
 # You will be using two AWS profiles
 # infra will be the use ElVasquez in the infrastructure account
 # sec will be the user JaGibson in the security account

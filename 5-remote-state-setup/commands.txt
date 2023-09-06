@@ -1,4 +1,19 @@
-terraform init
+TASK. To implement a remote state storage on s3
+-create an s3 bucket
+-create a dynamo db table to enable locking
+-create a group and grant full permission to read and write to the bucket and table
+-add users to the group
+-another group that has read only access to the bucket
+-add users to the group - users must have been created from the Console
+
+NEXT - MIGRATING LOCAL STATE FILE TO REMOTE STATE (s3 bucket)
+- Update backend configuration
+- run terraform init
+- confirm migration 
+- refer to backend.tf in 1-dev-vpc for the backend configuration file
+and the command.txt for the Initialization instruction
+
+terraform init 
 
 terraform validate
 
