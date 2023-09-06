@@ -20,13 +20,13 @@ variable "aws_dynamodb_table" {
 
 variable "full_access_users" {
   type    = list(string)
-  default = []
+  default = ["ElVasquez"]     #check terraform.tfvars
 
 }
 
 variable "read_only_users" {
   type    = list(string)
-  default = []
+  default = ["JoMcGee"]    #check terraform.tfvars
 }
 
 ##################################################################################
@@ -42,8 +42,8 @@ provider "aws" {
 # RESOURCES
 ##################################################################################
 
-resource "random_integer" "rand" {
-  min = 10000
+resource "random_integer" "rand" {    #to give the s3 bucket a unique name
+  min = 10000   
   max = 99999
 }
 
@@ -67,13 +67,10 @@ resource "aws_dynamodb_table" "terraform_statelock" {
 
 resource "aws_s3_bucket" "state_bucket" {
   bucket        = local.bucket_name
+  acl = "private"
   force_destroy = true
 }
 
-resource "aws_s3_bucket_acl" "state_bucket" {
-  bucket = aws_s3_bucket.state_bucket.id
-  acl    = "private"
-}
 
 resource "aws_s3_bucket_versioning" "state_bucket" {
   bucket = aws_s3_bucket.state_bucket.id
@@ -81,6 +78,8 @@ resource "aws_s3_bucket_versioning" "state_bucket" {
     status = "Enabled"
   }
 }
+
+#create a group 
 
 resource "aws_iam_group" "bucket_full_access" {
 
@@ -96,14 +95,6 @@ resource "aws_iam_group" "bucket_read_only" {
 
 # Add members to the group
 
-resource "aws_iam_group_membership" "full_access" {
-  name = "${local.bucket_name}-full-access"
-
-  users = var.full_access_users
-
-  group = aws_iam_group.bucket_full_access.name
-}
-
 resource "aws_iam_group_membership" "read_only" {
   name = "${local.bucket_name}-read-only"
 
@@ -112,6 +103,16 @@ resource "aws_iam_group_membership" "read_only" {
   group = aws_iam_group.bucket_read_only.name
 }
 
+resource "aws_iam_group_membership" "full_access" {
+  name = "${local.bucket_name}-full-access"
+
+  users = var.full_access_users
+
+  group = aws_iam_group.bucket_full_access.name
+}
+
+
+#add policy to the group
 resource "aws_iam_group_policy" "full_access" {
   name  = "${local.bucket_name}-full-access"
   group = aws_iam_group.bucket_full_access.id

@@ -1,3 +1,5 @@
+TASK- SET A TWO VPCs IN TWO REGION
+
 # Initialize the terraform configuration
 terraform init
 

@@ -1,3 +1,5 @@
+TASK--- SET UP A DEVEPLOMENT VPC WITH TWO SUBNETS IN TWO AVAILABILITY ZONE IN ONE REGION
+
 # Run the aws configure command to set your access and secret keys
 aws configure
 
@@ -36,4 +38,4 @@ terraform apply "peer.tfplan"
 ren backend.tf.rename backend.tf
 
 # Update the region, bucket, and dynamodb table
-terraform init -backend-config="bucket=BUCKET_NAME" -backend-config="region=REGION_NAME" -backend-config="dynamodb_table=TABLE_NAME"
+terraform init -backend-config="bucket=globo-59189" -backend-config="region=us-east-1" -backend-config="dynamodb_table=globo-tfstatelock-59189"
